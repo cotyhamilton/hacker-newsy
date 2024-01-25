@@ -3,17 +3,24 @@
 	import Comment from "./comment.svelte";
 
 	export let data: PageData;
+
+	console.log({ data });
 </script>
 
 <h1 class="mb-6 flex text-6xl font-bold">{data.title}</h1>
-<div class="my-6 flex space-x-2">
-	<a href={data.url} target="_blank" class="text-[#ff6600]">{data.domain}</a>
-	<span class="text-slate-300">&#x2022;</span>
-	<span>{data.points} points</span>
-	<span class="text-slate-300">&#x2022;</span>
-	<span>by {data.user}</span>
-	<span class="text-slate-300">&#x2022;</span>
-	<span class="text-slate-500">{data.time_ago}</span>
+{#if data.content}
+	{@html data.content}
+{/if}
+<div class="my-6 flex space-x-2 overflow-x-scroll">
+	{#if data.domain}
+		<a href={data.url} target="_blank" class="whitespace-nowrap text-primary">{data.domain}</a>
+		<p class="text-muted-foreground">&#x2022;</p>
+	{/if}
+	<p class="whitespace-nowrap">{data.points} points</p>
+	<p class="text-muted-foreground">&#x2022;</p>
+	<a href={`/user/${data.user}`} class="whitespace-nowrap font-bold underline">{data.user}</a>
+	<p class="text-muted-foreground">&#x2022;</p>
+	<p class="whitespace-nowrap text-muted-foreground">{data.time_ago}</p>
 </div>
 <hr />
 <p class="my-6">{data.comments_count} comments</p>

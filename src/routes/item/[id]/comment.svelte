@@ -14,8 +14,8 @@
 			<div class="meta-bar cursor-pointer py-4" role="button" tabindex="0">
 				<span class="meta block text-sm">
 					<a href="/user/{comment.user}" class="font-bold">{comment.user}</a>
-					<span class="text-slate-300">&#x2022;</span>
-					<span class="text-slate-500">{comment.time_ago}</span>
+					<span class="text-muted-foreground">&#x2022;</span>
+					<span class="text-muted-foreground">{comment.time_ago}</span>
 				</span>
 			</div>
 		</summary>
@@ -35,7 +35,7 @@
 </article>
 
 <style>
-	:global(.comment a) {
+	.comment :global(a) {
 		text-decoration: underline !important;
 	}
 
