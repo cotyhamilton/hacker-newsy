@@ -56,7 +56,10 @@ const config = {
 			},
 			fontFamily: {
 				sans: [...fontFamily.sans]
-			}
+			},
+			screens: {
+				standalone: { raw: "(display-mode: standalone)" }
+			},
 		}
 	}
 };

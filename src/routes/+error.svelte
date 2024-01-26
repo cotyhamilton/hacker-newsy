@@ -7,10 +7,6 @@
 	const message = offline ? "Find the internet and try again" : $page.error?.message;
 </script>
 
-<svelte:head>
-	<title>{title}</title>
-</svelte:head>
-
 <h1>{title}</h1>
 
 <pre>{message}</pre>

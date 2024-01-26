@@ -3,8 +3,10 @@
 	import Settings from "./settings.svelte";
 </script>
 
-<header>
-	<nav class="flex items-center justify-between px-2 py-6 sm:px-4 md:px-6 lg:px-12">
+<header
+	class="fixed top-0 m-0 w-full border-b bg-background dark:bg-[rgb(2,4,8)] standalone:pt-[env(safe-area-inset-top)]"
+>
+	<nav class="flex items-center justify-between px-4 py-6 md:px-6 lg:px-12">
 		<div class="rounded-md bg-primary px-2 py-1.5">
 			<a href="/" class="font-semibold text-primary-foreground">hn</a>
 		</div>
@@ -13,6 +15,7 @@
 			<a href="/newest" class={`${$page.url.pathname === "/newest" ? "font-semibold" : ""}`}>new</a>
 			<a href="/ask" class={`${$page.url.pathname === "/ask" ? "font-semibold" : ""}`}>ask</a>
 			<a href="/show" class={`${$page.url.pathname === "/show" ? "font-semibold" : ""}`}>show</a>
+			<a href="/jobs" class={`${$page.url.pathname === "/jobs" ? "font-semibold" : ""}`}>jobs</a>
 		</div>
 		<Settings />
 	</nav>

@@ -1,6 +1,4 @@
 {
-  "background_color": "#F6F6EF",
-  "theme_color": "#FF6600",
   "name": "hacker news",
   "short_name": "hacker news",
   "display": "standalone",

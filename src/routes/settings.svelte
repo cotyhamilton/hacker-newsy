@@ -3,14 +3,14 @@
 	import * as Sheet from "$lib/components/ui/sheet";
 	import * as Tabs from "$lib/components/ui/tabs";
 	// import { features } from "$lib/stores/features";
-	import { Lightbulb, LightbulbOff, Settings } from "lucide-svelte";
+	import { Equal, Lightbulb, LightbulbOff } from "lucide-svelte";
 	import { toggleMode } from "mode-watcher";
 </script>
 
 <Sheet.Root>
-	<Sheet.Trigger><Settings strokeWidth={1.5} /></Sheet.Trigger>
+	<Sheet.Trigger><Equal strokeWidth={1.55} /></Sheet.Trigger>
 	<Sheet.Content>
-		<Tabs.Root value="settings" class="w-[400px]">
+		<Tabs.Root value="settings" class="w-[400px] standalone:pt-12">
 			<Tabs.List>
 				<Tabs.Trigger value="settings">settings</Tabs.Trigger>
 			</Tabs.List>

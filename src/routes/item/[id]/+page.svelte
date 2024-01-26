@@ -3,23 +3,33 @@
 	import Comment from "./comment.svelte";
 
 	export let data: PageData;
-
-	console.log({ data });
 </script>
 
-<h1 class="mb-6 flex text-6xl font-bold">{data.title}</h1>
+{#if data.domain}
+	<a href={data.url} target="_blank"
+		><h1 class="mb-6 flex text-5xl font-bold md:text-6xl">{data.title}</h1></a
+	>
+{:else}
+	<h1 class="mb-6 flex text-5xl font-bold md:text-6xl">{data.title}</h1>
+{/if}
 {#if data.content}
-	{@html data.content}
+	<div class="content">
+		{@html data.content}
+	</div>
 {/if}
 <div class="my-6 flex space-x-2 overflow-x-scroll">
 	{#if data.domain}
 		<a href={data.url} target="_blank" class="whitespace-nowrap text-primary">{data.domain}</a>
-		<p class="text-muted-foreground">&#x2022;</p>
+		<p class="text-muted-foreground">・</p>
 	{/if}
-	<p class="whitespace-nowrap">{data.points} points</p>
-	<p class="text-muted-foreground">&#x2022;</p>
-	<a href={`/user/${data.user}`} class="whitespace-nowrap font-bold underline">{data.user}</a>
-	<p class="text-muted-foreground">&#x2022;</p>
+	{#if data.points}
+		<p class="whitespace-nowrap">{data.points} points</p>
+		<p class="text-muted-foreground">・</p>
+	{/if}
+	{#if data.user}
+		<a href={`/user/${data.user}`} class="whitespace-nowrap font-bold underline">{data.user}</a>
+		<p class="text-muted-foreground">・</p>
+	{/if}
 	<p class="whitespace-nowrap text-muted-foreground">{data.time_ago}</p>
 </div>
 <hr />
@@ -28,3 +38,13 @@
 {#each data.comments as comment}
 	<Comment {comment} />
 {/each}
+
+<style>
+	.content :global(a) {
+		text-decoration: underline !important;
+	}
+
+	.content :global(pre) {
+		overflow-x: auto;
+	}
+</style>

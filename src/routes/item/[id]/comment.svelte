@@ -6,16 +6,38 @@
 		content: string;
 		comments: any[];
 	};
+
+	export let index = 0;
+
+	let open = index < 3;
+
+	const count = (c: typeof comment) => {
+		let totalCount = 1;
+
+		if (c.comments && c.comments.length > 0) {
+			for (const nestedComment of c.comments) {
+				totalCount += count(nestedComment);
+			}
+		}
+
+		return totalCount;
+	};
 </script>
 
 <article class="comment border-t border-solid">
-	<details open>
+	<details bind:open>
 		<summary class="list-none">
 			<div class="meta-bar cursor-pointer py-4" role="button" tabindex="0">
 				<span class="meta block text-sm">
 					<a href="/user/{comment.user}" class="font-bold">{comment.user}</a>
-					<span class="text-muted-foreground">&#x2022;</span>
+					<span class="text-muted-foreground">・</span>
 					<span class="text-muted-foreground">{comment.time_ago}</span>
+					{#if comment.comments?.length > 0 && !open}
+						<div class="inline-block">
+							<span class="text-muted-foreground">・</span>
+							<span class="text-muted-foreground">{count(comment)} more</span>
+						</div>
+					{/if}
 				</span>
 			</div>
 		</summary>
@@ -27,7 +49,7 @@
 		{#if comment.comments.length > 0}
 			<ul class="children pl-4">
 				{#each comment.comments as child}
-					<li class="list-none"><svelte:self comment={child} /></li>
+					<li class="list-none"><svelte:self comment={child} index={index + 1} /></li>
 				{/each}
 			</ul>
 		{/if}
@@ -60,7 +82,6 @@
 		}
 	}
 
-	/* prevent crazy overflow layout bug on mobile */
 	.body :global(*) {
 		overflow-wrap: break-word;
 	}

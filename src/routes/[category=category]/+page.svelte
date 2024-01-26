@@ -12,7 +12,7 @@
 	$: category = $page.params.category;
 </script>
 
-<p class="mb-8 text-4xl font-semibold">
+<p class="mb-8 text-3xl font-semibold sm:text-4xl">
 	{new Date().toLocaleDateString("en-us", {
 		weekday: "long",
 		year: "numeric",
@@ -31,24 +31,32 @@
 			<div class="flex flex-auto flex-wrap space-x-1">
 				{#if item.domain}
 					<a href={item.url} target="_blank" class="text-sm text-primary">{item.domain}</a>
-					<p class="text-muted-foreground">&#x2022;</p>
+					<p class="text-muted-foreground">・</p>
 				{/if}
-				<p class="text-sm">{item.points} points</p>
-				<p class="text-sm text-muted-foreground">&#x2022;</p>
-				<a href={`/user/${item.user}`} class="whitespace-nowrap text-sm font-bold underline"
-					>{item.user}</a
-				>
-				<p class="text-muted-foreground">&#x2022;</p>
-				<p class="text-sm text-muted-foreground">{item.time_ago}</p>
-				<p class="text-muted-foreground">&#x2022;</p>
-				<p class="text-sm text-muted-foreground">{item.comments_count} comments</p>
+				{#if item.points}
+					<p class="text-sm">{item.points} points</p>
+					<p class="text-sm text-muted-foreground">・</p>
+				{/if}
+				{#if item.user}
+					<a href={`/user/${item.user}`} class="whitespace-nowrap text-sm font-bold underline"
+						>{item.user}</a
+					>
+					<p class="text-muted-foreground">・</p>
+				{/if}
+				{#if item.time_ago}
+					<p class="text-sm text-muted-foreground">{item.time_ago}</p>
+					<p class="text-muted-foreground">・</p>
+				{/if}
+				{#if item.comments_count >= 0}
+					<p class="text-sm text-muted-foreground">{item.comments_count} comments</p>
+				{/if}
 			</div>
 		</div>
 	</div>
 {/each}
 
-{#if !$features.infiniteScroll}
-	<!-- pagination -->
+<!-- pagination -->
+{#if !$features.infiniteScroll && data?.items?.length}
 	<Pagination.Root
 		count={category === "news" || category === "newest" ? 300 : 60}
 		perPage={30}
@@ -56,7 +64,7 @@
 		let:pages
 		let:currentPage
 	>
-		<Pagination.Content class="my-12">
+		<Pagination.Content class="mt-12">
 			{#if +data.page && +data.page > 1}
 				<Pagination.Item>
 					<a href={`/${category}?p=${+data.page - 1}`}
