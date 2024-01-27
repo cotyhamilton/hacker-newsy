@@ -1,15 +1,47 @@
 <script lang="ts">
 	import { page } from "$app/stores";
 	import * as Pagination from "$lib/components/ui/pagination";
-	import { features } from "$lib/stores/features";
+	import { infiniteScroll } from "$lib/stores/features";
+	import { items, loadMoreItems, pageIndex } from "$lib/stores/items";
 	import { ChevronLeft, ChevronRight } from "lucide-svelte";
+	import { onMount } from "svelte";
 	import type { PageData } from "./$types";
 
 	export let data: PageData;
 
 	let { category } = $page.params;
+	let loadingRef: HTMLElement | undefined;
 
-	$: category = $page.params.category;
+	let loadingObserver: IntersectionObserver;
+
+	onMount(() => {
+		loadingObserver = new IntersectionObserver((entries) => {
+			const element = entries[0];
+
+			if (element.isIntersecting) {
+				loadMoreItems(category);
+			}
+		});
+	});
+
+	const initializeInfiniteScroll = async () => {
+		if (!loadingRef) {
+			return;
+		}
+		loadingObserver.observe(loadingRef);
+	};
+
+	$: {
+		if (loadingRef) {
+			loadingObserver.unobserve(loadingRef);
+		}
+		category = $page.params.category;
+		$items = data.items;
+		$pageIndex = +($page.url.searchParams.get("p") || 1);
+		if ($infiniteScroll) {
+			initializeInfiniteScroll();
+		}
+	}
 </script>
 
 <p class="mb-8 text-3xl font-semibold sm:text-4xl">
@@ -21,7 +53,7 @@
 	})}
 </p>
 <hr />
-{#each data.items as item, i}
+{#each $items as item, i}
 	<div class="mt-2 flex py-4">
 		<p class="text-xl text-muted-foreground">{(+data.page - 1) * 30 + i + 1}.</p>
 		<div class="ms-4">
@@ -30,7 +62,9 @@
 			>
 			<div class="flex flex-auto flex-wrap space-x-1">
 				{#if item.domain}
-					<a href={item.url} target="_blank" class="text-sm text-primary">{item.domain}</a>
+					<a href={item.url} target="_blank" class="text-sm text-primary dark:opacity-90"
+						>{item.domain}</a
+					>
 					<p class="text-muted-foreground">・</p>
 				{/if}
 				{#if item.points}
@@ -55,8 +89,14 @@
 	</div>
 {/each}
 
+{#if $infiniteScroll}
+	<div class="mt-12 flex justify-center text-muted-foreground" bind:this={loadingRef}>
+		you've reached the bottom 🤓
+	</div>
+{/if}
+
 <!-- pagination -->
-{#if !$features.infiniteScroll && data?.items?.length}
+{#if !$infiniteScroll && data?.items?.length && category !== "jobs"}
 	<Pagination.Root
 		count={category === "news" || category === "newest" ? 300 : 60}
 		perPage={30}

@@ -1,10 +1,26 @@
 <script lang="ts">
+	import { browser } from "$app/environment";
+	import { goto } from "$app/navigation";
+	import { page } from "$app/stores";
 	import { Button } from "$lib/components/ui/button";
+	import { Label } from "$lib/components/ui/label";
 	import * as Sheet from "$lib/components/ui/sheet";
+	import { Switch } from "$lib/components/ui/switch";
 	import * as Tabs from "$lib/components/ui/tabs";
-	// import { features } from "$lib/stores/features";
+	import { infiniteScroll } from "$lib/stores/features";
 	import { Equal, Lightbulb, LightbulbOff } from "lucide-svelte";
 	import { toggleMode } from "mode-watcher";
+	import { items } from "../lib/stores/items";
+
+	if (browser) {
+		infiniteScroll.subscribe((infiniteScroll) => {
+			if (infiniteScroll) {
+				$items = $items.slice(0, 30);
+			} else {
+				goto($page.url.pathname);
+			}
+		});
+	}
 </script>
 
 <Sheet.Root>
@@ -24,10 +40,10 @@
 					/>
 					<span class="sr-only">Toggle theme</span>
 				</Button>
-				<!-- <div class="my-4">
+				<div class="my-4">
 					<Label for="scroll" class="my-2 block">infinite scroll</Label>
-					<Switch id="scroll" class="my-2 block" bind:checked={$features.infiniteScroll} />
-				</div> -->
+					<Switch id="scroll" class="my-2 block" bind:checked={$infiniteScroll} />
+				</div>
 			</Tabs.Content>
 		</Tabs.Root>
 	</Sheet.Content>

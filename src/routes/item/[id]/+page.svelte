@@ -19,7 +19,9 @@
 {/if}
 <div class="my-6 flex space-x-2 overflow-x-scroll">
 	{#if data.domain}
-		<a href={data.url} target="_blank" class="whitespace-nowrap text-primary">{data.domain}</a>
+		<a href={data.url} target="_blank" class="whitespace-nowrap text-primary dark:opacity-90"
+			>{data.domain}</a
+		>
 		<p class="text-muted-foreground">・</p>
 	{/if}
 	{#if data.points}
