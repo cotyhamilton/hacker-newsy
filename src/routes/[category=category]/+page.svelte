@@ -62,9 +62,7 @@
 			>
 			<div class="flex flex-auto flex-wrap space-x-1">
 				{#if item.domain}
-					<a href={item.url} target="_blank" class="text-sm text-primary dark:opacity-90"
-						>{item.domain}</a
-					>
+					<a href={item.url} target="_blank" class="text-sm text-primary">{item.domain}</a>
 					<p class="text-muted-foreground">・</p>
 				{/if}
 				{#if item.points}
