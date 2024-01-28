@@ -66,7 +66,7 @@
 					<p class="text-muted-foreground">・</p>
 				{/if}
 				{#if item.points}
-					<p class="text-sm">{item.points} points</p>
+					<p class="text-sm">{item.points} {item.points === 1 ? "point" : "points"}</p>
 					<p class="text-sm text-muted-foreground">・</p>
 				{/if}
 				{#if item.user}
@@ -80,7 +80,10 @@
 					<p class="text-muted-foreground">・</p>
 				{/if}
 				{#if item.comments_count >= 0}
-					<p class="text-sm text-muted-foreground">{item.comments_count} comments</p>
+					<p class="text-sm text-muted-foreground">
+						{item.comments_count}
+						{item.comments_count === 1 ? "comment" : "comments"}
+					</p>
 				{/if}
 			</div>
 		</div>

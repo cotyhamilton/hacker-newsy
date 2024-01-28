@@ -23,7 +23,7 @@
 		<p class="text-muted-foreground">・</p>
 	{/if}
 	{#if data.points}
-		<p class="whitespace-nowrap">{data.points} points</p>
+		<p class="whitespace-nowrap">{data.points} {data.points === 1 ? "point" : "points"}</p>
 		<p class="text-muted-foreground">・</p>
 	{/if}
 	{#if data.user}
@@ -33,7 +33,7 @@
 	<p class="whitespace-nowrap text-muted-foreground">{data.time_ago}</p>
 </div>
 <hr />
-<p class="my-6">{data.comments_count} comments</p>
+<p class="my-6">{data.comments_count} {data.comments_count === 1 ? "comment" : "comments"}</p>
 
 {#each data.comments as comment}
 	<Comment {comment} />
